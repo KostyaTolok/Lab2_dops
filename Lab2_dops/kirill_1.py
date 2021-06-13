@@ -7,6 +7,12 @@ class Node:
     def __repr__(self):
         return str(self.value)
 
+    def __eq__(self, other):
+        return other.value == self.value
+
+    def __hash__(self):
+        return hash(self.value)
+
 
 class LinkedList:
 
@@ -34,16 +40,8 @@ class LinkedList:
         return " -> ".join(values)
 
     def delete_repeats(self):
-        if self.head is None:
-            raise Exception("List is empty")
-        previous = self.head
-        repeats = set()
-        for node in self:
-            if node.value in repeats:
-                previous.nxt = node.nxt
-            else:
-                repeats.add(node.value)
-                previous = node
+        repeats = set(self)
+        self.__init__(list(repeats))
 
 
 def main():
