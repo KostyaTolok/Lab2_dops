@@ -5,13 +5,15 @@ def traverse(Node):
     if Node.right:
         yield from traverse(Node.right)
 
-class BSTGenerator(object):    
+
+class BSTGenerator(object):
 
     def __init__(self, root):
         self.root = root
 
     def __call__(self):
         return traverse(self.root)
+
 
 class Node:
     def __init__(self, value=0, left=None, right=None):
