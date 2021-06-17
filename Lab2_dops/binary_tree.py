@@ -1,8 +1,9 @@
 class Node:
-    def __init__(self, value, left=None, right=None):
+    def __init__(self, value, parent, left=None, right=None):
         self.value = value
         self.left = left
         self.right = right
+        self.parent = parent
 
     def __repr__(self):
         return str(self.value)
@@ -26,7 +27,7 @@ class BSTree:
 
     def add(self, value):
         if self.root is None:
-            self.root = Node(value)
+            self.root = Node(value, None)
         else:
             self._add(value, self.root)
 
@@ -35,12 +36,12 @@ class BSTree:
             if node.left is not None:
                 self._add(value, node.left)
             else:
-                node.left = Node(value)
+                node.left = Node(value, node)
         else:
             if node.right is not None:
                 self._add(value, node.right)
             else:
-                node.right = Node(value)
+                node.right = Node(value, node)
 
     def get_min(self, node):
         current = node
@@ -77,6 +78,34 @@ class BSTree:
         for n in BSTIterator(self.root):
             nodes.append(str(n))
         return " ".join(nodes)
+
+    def bfs(self):
+        if self.root is None:
+            raise ValueError
+        queue = [self.root]
+        while queue:
+            node = queue.pop(0)
+            yield node
+            if node.left is not None:
+                queue.append(node.left)
+            if node.right is not None:
+                queue.append(node.right)
+
+    def dfs(self):
+        if self.root is None:
+            raise ValueError
+        queue = []
+        curr = self.root
+        while curr is not None:
+            queue.append(curr)
+            curr = curr.left
+        while queue:
+            node = queue.pop()
+            yield node
+            node = node.right
+            while node:
+                queue.append(node)
+                node = node.left
 
 
 class BSTIterator:
@@ -118,7 +147,6 @@ class BSTreeGenerator(object):
 
 
 tree = BSTree([10, 9, 3, 5, 6, 4, 2, 12, 14])
-print(tree)
 tree.delete(3)
-for i in BSTreeGenerator(tree.root):
+for i in tree.dfs():
     print(i)

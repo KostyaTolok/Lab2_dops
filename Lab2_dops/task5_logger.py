@@ -33,8 +33,8 @@ class MetaLogger(type):
 
     def __str__(self):
         if isinstance(self, type):
-            return MetaLogger.get_log(self.__name__)
-        return MetaLogger.get_log(self.__class__.__name__)
+            return self.get_log(self.__name__)
+        return self.get_log(self.__class__.__name__)
 
 
 class Logger(metaclass=MetaLogger):
@@ -56,6 +56,6 @@ a = A('qwe')
 
 a.get_name()
 
-a.func("asd", 123)
+l = Logger()
 
-print(str(A))
+print(str(a))

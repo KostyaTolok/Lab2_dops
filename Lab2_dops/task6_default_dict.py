@@ -23,8 +23,8 @@ class DefaultDict:
 
 
 d = DefaultDict()
-d['a']['b'] = 1
-print(d)
+d['a']['b']['c'] = 1
+print(d['a']['b'])
 d['a']['b']['m'] = 5
 d['a']['k'] = 55
 d['m'] = 34

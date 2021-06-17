@@ -54,9 +54,8 @@ def merge_sort(nums):
             k += 1
 
 
-def radix_sort(nums):
+def radix_sort(nums, rang):
     length = len(str(max(nums)))
-    rang = 10
     for i in range(length):
         radix_sorted = [[] for _ in range(rang)]
         for num in nums:
@@ -70,11 +69,33 @@ def radix_sort(nums):
     return nums
 
 
+def counting_sort(nums):
+    count = [0] * (max(nums) - min(nums) + 1)
+    fix = 0
+
+    if min(nums) > 0:
+        fix = -min(nums)
+    elif min(nums) < 0:
+        fix = abs(min(nums))
+
+    for i in range(len(nums)):
+        count[nums[i] + fix] += 1
+
+    for i in range(1, len(count)):
+        count[i] += count[i - 1]
+
+    nums_sorted = [0] * len(nums)
+    for i in range(len(nums) - 1, -1, -1):
+        count[nums[i] + fix] -= 1
+        nums_sorted[count[nums[i] + fix]] = nums[i]
+    return nums_sorted
+
+
 def main():
-    values = [32, 42, 1, 1, 332, 12]
+    values = [-5, -11, 6, 0, 22, 12]
     # quick_sort(values, 0, len(values) - 1)
     # merge_sort(values)
-    values = radix_sort(values)
+    values = counting_sort(values)
     print(values)
 
 
